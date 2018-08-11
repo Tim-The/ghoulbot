@@ -15,7 +15,7 @@ module.exports.run = async (client, message, args) => {
   if(!args[1].startsWith("http")){
     return message.channel.send("Provide a valid link of the emote.")
   } else{
-    reportID = await db.fetch('reportID')
+    let reportID = await db.fetch('reportID')
        if(reportID != null){
          await db.add('reportID', 1)
        }
