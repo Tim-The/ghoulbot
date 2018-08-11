@@ -61,6 +61,10 @@ client.on("messageReactionAdd", (messageReaction, user) => {
     if(messageReaction.message.channel.id !== utils.queueChannel){
       return
     }
+    let mentional = messageReaction.message.mentions.members.first();
+    if(user.id === mentional.id){
+      return
+    }
     if(user.bot === true){
       return
     }
@@ -77,8 +81,7 @@ client.on("messageReactionAdd", (messageReaction, user) => {
         messageReaction.message.delete()
         messageReaction.message.channel.send(`<:approve:${utils.approveEmote}> Submission \`${idd}\` has been approved.`).then(m => m.delete(9000))
         client.channels.get(utils.approvedChannel).send(`-------------------------------\n**The following ghoul-mote has been approved:**\n**Link:** ${link}\n**Submitted by:** <${loser}\n**Submission ID:** ${idd}\n-------------------------------`)
-        let emojimakerrole = messageReaction.message.guild.roles.find(`name`, `${utils.makerRoleName}`);
-        let mentional = messageReaction.message.mentions.members.first();
+        let emojimakerrole = messageReaction.message.guild.roles.find(`name`, `${utils.makerRoleName}`); 
         let approvedUser = messageReaction.message.guild.members.get(mentional.id);
         if(approvedUser.roles.has(emojimakerrole.id)){
           return
