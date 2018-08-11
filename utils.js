@@ -4,6 +4,7 @@ var utils = {
   approvedChannel : "475052125236363264",
   logChannel : "475283923652313088",
   submissionChannel : "468189952082051073",
+  makerRoleName : "Emoji Maker",
 
   denyEmote : "475044158046732288",
   approveEmote : "475044157904125962"
