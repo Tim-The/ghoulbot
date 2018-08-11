@@ -3,9 +3,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 const config = require('./config');
 const utils = require('./utils')
-const moment = require("moment");
 const fs = require("fs");
-const db = require("quick.db");
 client.commands = new Discord.Collection();
 
 fs.readdir("./commands/", (err, files) => {
@@ -68,17 +66,25 @@ client.on("messageReactionAdd", (messageReaction, user) => {
     }
     if(messageReaction.emoji.id === utils.denyEmote){
       if(messageReaction.count === config.denialCount){
-        client.channels.get(utils.logChannel).send(`<:deny:475044158046732288> Submission \`${idd}\` has been denied.`)
+        client.channels.get(utils.logChannel).send(`<:deny:${utils.denyEmote}> Submission \`${idd}\` has been denied.`)
         messageReaction.message.delete()
-        messageReaction.message.channel.send(`<:deny:475044158046732288> Submission \`${idd}\` has been denied.`).then(m => m.delete(9000))
+        messageReaction.message.channel.send(`<:deny:${utils.denyEmote}> Submission \`${idd}\` has been denied.`).then(m => m.delete(9000))
         client.channels.get(utils.deniedChannel).send(`-------------------------------\n**The following ghoul-mote has been denied:**\n**Link:** ${link}\n**Submitted by:** <${loser}\n**Submission ID:** ${idd}\n-------------------------------`)
       }
     } else if(messageReaction.emoji.id === utils.approveEmote){
       if(messageReaction.count === config.approvalCount){
-        client.channels.get(utils.logChannel).send(`<:approve:475044157904125962> Submission \`${idd}\` has been approved.`)
+        client.channels.get(utils.logChannel).send(`<:approve:${utils.approveEmote}> Submission \`${idd}\` has been approved.`)
         messageReaction.message.delete()
-        messageReaction.message.channel.send(`<:approve:475044157904125962> Submission \`${idd}\` has been approved.`).then(m => m.delete(9000))
+        messageReaction.message.channel.send(`<:approve:${utils.approveEmote}> Submission \`${idd}\` has been approved.`).then(m => m.delete(9000))
         client.channels.get(utils.approvedChannel).send(`-------------------------------\n**The following ghoul-mote has been approved:**\n**Link:** ${link}\n**Submitted by:** <${loser}\n**Submission ID:** ${idd}\n-------------------------------`)
+        let emojimakerrole = messageReaction.message.guild.roles.find(`name`, `${utils.makerRoleName}`);
+        let mentional = messageReaction.message.mentions.members.first();
+        let approvedUser = messageReaction.message.guild.members.get(mentional.id);
+        if(approvedUser.roles.has(emojimakerrole.id)){
+          return
+        } else {
+          approvedUser.addRole(emojimakerrole)
+        }
       };
     }
 });
