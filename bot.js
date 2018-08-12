@@ -62,6 +62,9 @@ client.on("messageReactionAdd", (messageReaction, user) => {
       return
     }
     let mentional = messageReaction.message.mentions.members.first();
+    if(user.id === mentional.id){
+      return
+    }
     if(user.bot === true){
       return
     }
