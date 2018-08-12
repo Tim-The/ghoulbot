@@ -65,9 +65,6 @@ client.on("messageReactionAdd", (messageReaction, user) => {
     if(user.id === mentional.id){
       return
     }
-    if(user.bot === true){
-      return
-    }
     if(messageReaction.emoji.id === utils.denyEmote){
       if(user.id === mentional.id){
         return
