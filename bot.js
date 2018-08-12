@@ -96,12 +96,12 @@ client.on("messageReactionAdd", (messageReaction, user) => {
 client.on('error', console.error);
 
 client.on("message", async message => {
-  let protectorrole = message.guild.roles.find(`name`, `Kitty Protectors`)
+  let modrole = message.guild.roles.find(`name`, utils.modRoleName)
   if(message.channel.id === utils.queueChannel){
     if(message.author.bot){
       return
     }
-    if(message.member.roles.has(protectorrole.id)){
+    if(message.member.roles.has(modrole.id)){
       return
     } else {
       message.delete()
@@ -123,7 +123,7 @@ client.on("message", async message => {
   if(commandfile) commandfile.run(client, message, args)
 
   if(command === "restart"){
-    if(!message.member.roles.has(protectorrole.id)){
+    if(!message.member.roles.has(modrole.id)){
       return
     } else {
       message.channel.send("Restarting...")
