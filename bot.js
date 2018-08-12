@@ -2,7 +2,7 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const config = require('./config');
-const utils = require('./utils')
+const utils = require('./utils');
 const fs = require("fs");
 client.commands = new Discord.Collection();
 
@@ -69,21 +69,25 @@ client.on("messageReactionAdd", (messageReaction, user) => {
       return
     }
     if(messageReaction.emoji.id === utils.denyEmote){
-      if(messageReaction.count === config.denialCount){
+      if(user.id === mentional.id){
+        return
+      } else if(messageReaction.count >= config.denialCount){
         client.channels.get(utils.logChannel).send(`<:deny:${utils.denyEmote}> Submission \`${idd}\` has been denied.`)
         messageReaction.message.delete()
         messageReaction.message.channel.send(`<:deny:${utils.denyEmote}> Submission \`${idd}\` has been denied.`).then(m => m.delete(9000))
         client.channels.get(utils.deniedChannel).send(`-------------------------------\n**The following ghoul-mote has been denied:**\n**Link:** ${link}\n**Submitted by:** <${loser}\n**Submission ID:** ${idd}\n-------------------------------`)
       }
     } else if(messageReaction.emoji.id === utils.approveEmote){
-      if(messageReaction.count === config.approvalCount){
+      if(user.id === mentional.id){
+        return
+      } else if(messageReaction.count >= config.approvalCount){
         client.channels.get(utils.logChannel).send(`<:approve:${utils.approveEmote}> Submission \`${idd}\` has been approved.`)
         messageReaction.message.delete()
         messageReaction.message.channel.send(`<:approve:${utils.approveEmote}> Submission \`${idd}\` has been approved.`).then(m => m.delete(9000))
         client.channels.get(utils.approvedChannel).send(`-------------------------------\n**The following ghoul-mote has been approved:**\n**Link:** ${link}\n**Submitted by:** <${loser}\n**Submission ID:** ${idd}\n-------------------------------`)
         let emojimakerrole = messageReaction.message.guild.roles.find(`name`, `${utils.makerRoleName}`); 
         let approvedUser = messageReaction.message.guild.members.get(mentional.id);
-        if(approvedUser.roles.has(emojimakerrole.id)){
+        if(approvedUser.roles.has(emojimakerrole)){
           return
         } else {
           approvedUser.addRole(emojimakerrole)
@@ -95,14 +99,18 @@ client.on("messageReactionAdd", (messageReaction, user) => {
 client.on('error', console.error);
 
 client.on("message", async message => {
+  let modrole = message.guild.roles.find(`name`, utils.modRoleName)
   if(message.channel.id === utils.queueChannel){
     if(message.author.bot){
       return
     }
-    message.delete()
-    message.reply("Please do not send messages here.").then(m => m.delete(5000))
+    if(message.member.roles.has(modrole.id)){
+      return
+    } else {
+      message.delete()
+      message.reply("Please do not send messages here.").then(m => m.delete(5000))
+    }
   }
-  if(message.author.bot) return;
   if(message.channel.type === "dm"){
     return message.channel.send(`<:GhoulWave:468250867825377290> Heya! I don't accept commands from dms, use them in the Ghoul-Motes server!`)
   }
@@ -118,8 +126,7 @@ client.on("message", async message => {
   if(commandfile) commandfile.run(client, message, args)
 
   if(command === "restart"){
-    let protectorrole = message.guild.roles.find(`name`, `Kitty Protectors`)
-    if(!message.member.roles.has(protectorrole.id)){
+    if(!message.member.roles.has(modrole.id)){
       return
     } else {
       message.channel.send("Restarting...")
@@ -133,3 +140,4 @@ client.on("message", async message => {
 process.on('unhandledRejection', err => console.error(`Uncaught Promise Rejection: \n${err.stack}`));
 
 client.login(config.botToken);
+
