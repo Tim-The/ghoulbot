@@ -6,6 +6,7 @@ var utils = {
   submissionChannel : "477837828957667339",
   makerRoleName : "Emoji Maker",
   modRoleName : "Kitty Protectors",
+  announceChannel: "468184020614643722",
 
   denyEmote : "477838329371688971",
   approveEmote : "477838329576947712"
