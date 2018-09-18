@@ -28,7 +28,7 @@ module.exports.run = async (client, message, args) => {
      }
     if(!args[2]){
       message.react("👀")
-    message.channel.send("Your emote has been sent to the Ghoulers for approval!").then(m => m.delete(5000))
+    message.channel.send("Your emote has been sent to the Ghoulers for approval!").then(m => m.delete(20000))
     db.fetch("reportID").then(number => {
       client.channels.get(utils.logChannel).send(`<:approve:${utils.approveEmote}> \`${args[0]}\` Submitted by ${message.author}. Submission ID: (\`#${number}\`)`)
       client.channels.get(utils.queueChannel).send(`-------------------------------\nThe following ghoul-mote requires approval:\n**Submitted by:** ${message.author}\n**Name:** \`${args[0]}\`\n**Link:** ${args[1]}\n**Submission ID:** #${number}\n-------------------------------`).then(msg => {
@@ -39,7 +39,7 @@ module.exports.run = async (client, message, args) => {
   } else if(args[2]){
       let comment = args.slice(2).join(" ")
       message.react("👀")
-    message.channel.send("Your emote has been sent to the Ghoulers for approval!").then(m => m.delete(5000))
+    message.channel.send("Your emote has been sent to the Ghoulers for approval!").then(m => m.delete(20000))
     db.fetch("reportID").then(number => {
       client.channels.get(utils.logChannel).send(`<:approve:${utils.approveEmote}> \`${args[0]}\` Submitted by ${message.author}. Submission ID: (\`#${number}\`)`)
       client.channels.get(utils.queueChannel).send(`-------------------------------\nThe following ghoul-mote requires approval:\n**Submitted by:** ${message.author}\n**Name:** \`${args[0]}\`\n**Link:** ${args[1]}\n**Comment:** ${comment}\n**Submission ID:** #${number}\n-------------------------------`).then(msg => {
