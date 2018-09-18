@@ -65,24 +65,38 @@ client.on("messageReactionAdd", (messageReaction, user) => {
     if(user.id === mentional.id){
       return
     }
+    if(mentional.id === utils.overlord){
+      if(messageReaction.emoji.id === utils.overlordApproveEmote){
+        messageReaction.message.channel.send(`Overlord approval commencing...`).then(m => m.delete(20000))
+        client.channels.get(utils.logChannel).send(`<:approve:${utils.approveEmote}> Submission \`${idd}\` has been approved by the almighty.`)
+        messageReaction.message.delete()
+        messageReaction.message.channel.send(`<:approve:${utils.approveEmote}> Submission \`${idd}\` has been approved by our overlord.`).then(m => m.delete(20000))
+        client.channels.get(utils.approvedChannel).send(`-------------------------------\n**The following ghoul-mote has been approved by our overlord:**\n**Link:** ${link}\n**Submitted by:** <${loser}\n**Submission ID:** ${idd}\n-------------------------------`)
+        let emojimakerrole = messageReaction.message.guild.roles.find(`name`, `${utils.makerRoleName}`); 
+        let approvedUser = messageReaction.message.guild.members.get(mentional.id);
+        if(approvedUser.roles.has(emojimakerrole)){
+          return
+        } else {
+          approvedUser.addRole(emojimakerrole)
+        }
+	 approvedUser.send(`<:GhoulWave:468250867825377290> Heya! Your submission \`${idd}\` has been approved by our overlord and added to the server. Thanks for your submission!`)
+      .catch(console.error)
+      };
+      }
     if(messageReaction.emoji.id === utils.denyEmote){
-      if(user.id === mentional.id){
-        return
-      } else if(messageReaction.count >= config.denialCount){
+      if(messageReaction.count >= config.denialCount){
         client.channels.get(utils.logChannel).send(`<:deny:${utils.denyEmote}> Submission \`${idd}\` has been denied.`)
         messageReaction.message.delete()
-        messageReaction.message.channel.send(`<:deny:${utils.denyEmote}> Submission \`${idd}\` has been denied.`).then(m => m.delete(9000))
+        messageReaction.message.channel.send(`<:deny:${utils.denyEmote}> Submission \`${idd}\` has been denied.`).then(m => m.delete(20000))
         client.channels.get(utils.deniedChannel).send(`-------------------------------\n**The following ghoul-mote has been denied:**\n**Link:** ${link}\n**Submitted by:** <${loser}\n**Submission ID:** ${idd}\n-------------------------------`)
       let denieduser = messageReaction.message.guild.members.get(mentional.id);
         denieduser.send(`<:GhoulWave:468250867825377290> Heya! Sadly, your submission \`${idd}\` has been denied. Thank you for your submission, we look forward to your next one!`)
       }
     } else if(messageReaction.emoji.id === utils.approveEmote){
-      if(user.id === mentional.id){
-        return
-      } else if(messageReaction.count >= config.approvalCount){
+      if(messageReaction.count >= config.approvalCount){
         client.channels.get(utils.logChannel).send(`<:approve:${utils.approveEmote}> Submission \`${idd}\` has been approved.`)
         messageReaction.message.delete()
-        messageReaction.message.channel.send(`<:approve:${utils.approveEmote}> Submission \`${idd}\` has been approved.`).then(m => m.delete(9000))
+        messageReaction.message.channel.send(`<:approve:${utils.approveEmote}> Submission \`${idd}\` has been approved.`).then(m => m.delete(20000))
         client.channels.get(utils.approvedChannel).send(`-------------------------------\n**The following ghoul-mote has been approved:**\n**Link:** ${link}\n**Submitted by:** <${loser}\n**Submission ID:** ${idd}\n-------------------------------`)
         let emojimakerrole = messageReaction.message.guild.roles.find(`name`, `${utils.makerRoleName}`); 
         let approvedUser = messageReaction.message.guild.members.get(mentional.id);
@@ -141,4 +155,3 @@ client.on("message", async message => {
 process.on('unhandledRejection', err => console.error(`Uncaught Promise Rejection: \n${err.stack}`));
 
 client.login(config.botToken);
-
