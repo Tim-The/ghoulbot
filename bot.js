@@ -79,7 +79,7 @@ client.on("messageReactionAdd", (messageReaction, user) => {
         } else {
           approvedUser.addRole(emojimakerrole)
         }
-	 approvedUser.send(`<:GhoulWave:468250867825377290> Heya! Your submission \`${idd}\` has been approved by our overlord and added to the server. Thanks for your submission!`)
+	 approvedUser.send(`<:GhoulWave:453579301766299658> Heya! Your submission \`${idd}\` has been approved by our overlord and added to the server. Thanks for your submission!`)
       .catch(console.error)
       };
       }
@@ -90,7 +90,7 @@ client.on("messageReactionAdd", (messageReaction, user) => {
         messageReaction.message.channel.send(`<:deny:${utils.denyEmote}> Submission \`${idd}\` has been denied.`).then(m => m.delete(20000))
         client.channels.get(utils.deniedChannel).send(`-------------------------------\n**The following ghoul-mote has been denied:**\n**Link:** ${link}\n**Submitted by:** <${loser}\n**Submission ID:** ${idd}\n-------------------------------`)
       let denieduser = messageReaction.message.guild.members.get(mentional.id);
-        denieduser.send(`<:GhoulWave:468250867825377290> Heya! Sadly, your submission \`${idd}\` has been denied. Thank you for your submission, we look forward to your next one!`)
+        denieduser.send(`<:GhoulWave:453579301766299658> Heya! Sadly, your submission \`${idd}\` has been denied. Thank you for your submission, we look forward to your next one!`)
       }
     } else if(messageReaction.emoji.id === utils.approveEmote){
       if(messageReaction.count >= config.approvalCount){
@@ -105,7 +105,7 @@ client.on("messageReactionAdd", (messageReaction, user) => {
         } else {
           approvedUser.addRole(emojimakerrole)
         }
-	 approvedUser.send(`<:GhoulWave:468250867825377290> Heya! Your submission \`${idd}\` has been approved and added to the server. Thanks for your submission!`)
+	 approvedUser.send(`<:GhoulWave:453579301766299658> Heya! Your submission \`${idd}\` has been approved and added to the server. Thanks for your submission!`)
       .catch(console.error)
       };
     }
@@ -127,7 +127,7 @@ client.on("message", async message => {
     }
   }
   if(message.channel.type === "dm"){
-    return message.channel.send(`<:GhoulWave:468250867825377290> Heya! I don't accept commands from dms, use them in the Ghoul-Motes server!`)
+    return message.channel.send(`<:GhoulWave:453579301766299658> Heya! I don't accept commands from dms, use them in the Ghoul-Motes server!`)
   }
   let prefix = config.prefix
   if(message.content.indexOf(prefix) !== 0) return;
